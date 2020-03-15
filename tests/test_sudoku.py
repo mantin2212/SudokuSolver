@@ -11,9 +11,19 @@ class TestSudoku(object):
         assert empty_sudoku[0][0] == Sudoku.EMPTY_CELL
 
     def test_set_cell(self, empty_sudoku):
-        empty_sudoku[0][0] = '1'
+        """Test cell setting."""
+        size = empty_sudoku.size
+        for value in range(1, size + 1):
+            self._set_cell_test(empty_sudoku, value)
 
-    def test_cell_invalid_strings(self, empty_sudoku):
+    @staticmethod
+    def _set_cell_test(sudoku, value):
+        """Changing sudoku cells should change corresponding values in the board."""
+        sudoku[0][0] = value
+        assert sudoku[0][0] == value
+        assert sudoku.board[0][0] == value
+
+    def test_cell_invalid_values(self, empty_sudoku):
         """Sudoku should raise error when setting invalid value to a cell"""
         with pytest.raises(SudokuError):
             empty_sudoku[0][0] = '1234'
