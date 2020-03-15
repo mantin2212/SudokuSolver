@@ -38,3 +38,8 @@ class TestSudoku(object):
         assert solved_sudoku.is_legal()
         assert empty_sudoku.is_legal()
         assert not illegal_sudoku.is_legal()
+
+    def test_is_solved(self, solved_sudoku, empty_sudoku, illegal_sudoku):
+        assert solved_sudoku.is_solved()
+        assert not empty_sudoku.is_solved()
+        assert not illegal_sudoku.is_solved()
