@@ -6,6 +6,8 @@ from sudoku_solver.sudoku import Sudoku
 
 class TestSudoku(object):
 
+    ### SUDOKU CELL ACCESS TESTS ###
+
     def test_cell_access(self, empty_sudoku):
         """Test sudoku object cell access."""
         assert empty_sudoku[0][0] == Sudoku.EMPTY_CELL
@@ -34,12 +36,16 @@ class TestSudoku(object):
         with pytest.raises(SudokuError):
             empty_sudoku[0][0] = 1
 
+    ### SUDOKU FUNCTIONS TESTS ###
+
     def test_is_legal(self, solved_sudoku, empty_sudoku, illegal_sudoku):
+        """Test sudoku board is_legal function."""
         assert solved_sudoku.is_legal()
         assert empty_sudoku.is_legal()
         assert not illegal_sudoku.is_legal()
 
     def test_is_solved(self, solved_sudoku, empty_sudoku, illegal_sudoku):
+        """Test sudoku board is_solved function."""
         assert solved_sudoku.is_solved()
         assert not empty_sudoku.is_solved()
         assert not illegal_sudoku.is_solved()
@@ -59,4 +65,4 @@ class TestSudoku(object):
         clone = original.clone()
 
         clone[0][0] = 1
-        assert original[0][0] == "-"
+        assert original[0][0] == Sudoku.EMPTY_CELL
