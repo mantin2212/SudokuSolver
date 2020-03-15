@@ -52,3 +52,11 @@ class TestSudoku(object):
     def _assert_non_empty_string(repr_result):
         assert type(repr_result) == str
         assert repr_result
+
+    def test_clone(self, empty_sudoku):
+        """Clone changes should not effect original board."""
+        original = empty_sudoku
+        clone = original.clone()
+
+        clone[0][0] = 1
+        assert original[0][0] == "-"
