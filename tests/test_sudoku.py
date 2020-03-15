@@ -43,3 +43,12 @@ class TestSudoku(object):
         assert solved_sudoku.is_solved()
         assert not empty_sudoku.is_solved()
         assert not illegal_sudoku.is_solved()
+
+    def test_repr(self, empty_sudoku):
+        """Assert that sudoku presentation is a valid non-empty string."""
+        self._assert_non_empty_string(empty_sudoku.__repr__())
+
+    @staticmethod
+    def _assert_non_empty_string(repr_result):
+        assert type(repr_result) == str
+        assert repr_result
