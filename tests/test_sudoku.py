@@ -30,18 +30,6 @@ class TestSudoku(object):
         assert sudoku[0][0] == value
         assert sudoku.board[0][0] == value
 
-    def test_cell_invalid_values(self, empty_sudoku):
-        """Sudoku should raise error when setting invalid value to a cell"""
-        invalid_values = TestSudoku._sudoku_cell_invalid_values()
-
-        for value in invalid_values:
-            with pytest.raises(SudokuError):
-                empty_sudoku[0][0] = value
-
-    @staticmethod
-    def _sudoku_cell_invalid_values():
-        return [1234, -1, "nonono", "1", "--"]
-
     ### SUDOKU FUNCTIONS TESTS ###
     
     def test_get_row(self, empty_sudoku):
