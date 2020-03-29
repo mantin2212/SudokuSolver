@@ -1,8 +1,7 @@
-from string import digits
 from copy import copy
+from itertools import chain
 
 from sudoku_solver.exc import BoardError
-
 
 class Sudoku(object):
     """ Sudoku puzzle."""
@@ -40,14 +39,29 @@ class Sudoku(object):
         """
         return self.board[index]
 
+    def _cells_iterable(self):
+        return chain.from_iterable(zip(self.board))
+
     def is_legal(self):
         """
         Checks if the sudoku board is legal.
         :return: True if board is legal, and false Otherwise.
         :rtype: bool
         """
-        # TODO Check board.
+        if not self._is_valid():
+            return False
+
         pass
+
+    def _is_valid(self):
+        """
+        Check if board elements are valid.
+        :return: True if board is valid, and False otherwise.
+        """
+        for cell in self._cells_iterable():
+            if cell not in self._valid_elements:
+                return False
+        return True
 
     def is_solved(self):
         """
@@ -60,10 +74,9 @@ class Sudoku(object):
             return False
 
         # Asserting board is filled.
-        for i in range(self.size):
-            for j in range(self.size):
-                if self.board[i][j] == self.EMPTY_CELL:
-                    return False
+        for cell in self._cells_iterable():
+            if cell == self.EMPTY_CELL:
+                return False
 
         return True
 

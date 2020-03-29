@@ -43,6 +43,32 @@ class TestSudoku(object):
         return [1234, -1, "nonono", "1", "--"]
 
     ### SUDOKU FUNCTIONS TESTS ###
+    
+    def test_get_row(self, empty_sudoku):
+        """ Test sudoku row getter function """
+        row = empty_sudoku.get_row(0)
+        self._assert_list(row)
+
+    def test_get_col(self, empty_sudoku):
+        """ Test sudoku column getter function """
+        col = empty_sudoku.get_col(0)
+        self._assert_list(col)
+
+    def test_get_block(self, empty_sudoku):
+        """ Test sudoku block getter function """
+        block = empty_sudoku.get_block(0, 0)
+        self._assert_block(block)
+
+    @staticmethod
+    def _assert_list(val):
+        """ Assert val is a list """
+        return isinstance(val, list)
+
+    @staticmethod
+    def _assert_block(val):
+        """ Assert val is a list of lists."""
+        assert TestSudoku._assert_list(val)
+        assert TestSudoku._assert_list(val[0])
 
     def test_is_legal(self, solved_sudoku, empty_sudoku, illegal_sudoku):
         """Test sudoku board is_legal function."""
