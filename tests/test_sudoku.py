@@ -15,8 +15,13 @@ class TestSudoku(object):
     def test_set_cell(self, empty_sudoku):
         """Test cell setting."""
         size = empty_sudoku.size
-        for value in range(1, size + 1):
+
+        for value in TestSudoku._sudoku_cell_valid_values(size):
             self._set_cell_test(empty_sudoku, value)
+
+    @staticmethod
+    def _sudoku_cell_valid_values(size):
+        return list(range(1, size + 1)) + ["-"]
 
     @staticmethod
     def _set_cell_test(sudoku, value):
@@ -27,14 +32,15 @@ class TestSudoku(object):
 
     def test_cell_invalid_values(self, empty_sudoku):
         """Sudoku should raise error when setting invalid value to a cell"""
-        with pytest.raises(SudokuError):
-            empty_sudoku[0][0] = '1234'
+        invalid_values = TestSudoku._sudoku_cell_invalid_values()
 
-        with pytest.raises(SudokuError):
-            empty_sudoku[0][0] = '-1'
+        for value in invalid_values:
+            with pytest.raises(SudokuError):
+                empty_sudoku[0][0] = value
 
-        with pytest.raises(SudokuError):
-            empty_sudoku[0][0] = 1
+    @staticmethod
+    def _sudoku_cell_invalid_values():
+        return [1234, -1, "nonono", "1", "--"]
 
     ### SUDOKU FUNCTIONS TESTS ###
 
