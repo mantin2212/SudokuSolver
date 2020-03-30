@@ -32,16 +32,6 @@ class Sudoku(object):
         options = [str(n) for n in range(1, board_size + 1)]
         return options + [Sudoku.EMPTY_CELL]
 
-    def __getitem__(self, index):
-        """
-        Access sudoku board contents by key.
-        :param index: Desired row index from the board.
-        :type index: int
-        :return: The selected line from the board.
-        :rtype: list
-        """
-        return self.board[index]
-
     def _cells_iterable(self):
         return chain.from_iterable(zip(self.board))
 
