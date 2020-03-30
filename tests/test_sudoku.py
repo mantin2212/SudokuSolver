@@ -6,30 +6,6 @@ from sudoku_solver.sudoku import Sudoku
 
 class TestSudoku(object):
 
-    ### SUDOKU CELL ACCESS TESTS ###
-
-    def test_cell_access(self, empty_sudoku):
-        """Test sudoku object cell access."""
-        assert empty_sudoku[0][0] == Sudoku.EMPTY_CELL
-
-    def test_set_cell(self, empty_sudoku):
-        """Test cell setting."""
-        size = empty_sudoku.size
-
-        for value in TestSudoku._sudoku_cell_valid_values(size):
-            self._set_cell_test(empty_sudoku, value)
-
-    @staticmethod
-    def _sudoku_cell_valid_values(size):
-        return list(range(1, size + 1)) + ["-"]
-
-    @staticmethod
-    def _set_cell_test(sudoku, value):
-        """Changing sudoku cells should change corresponding values in the board."""
-        sudoku[0][0] = value
-        assert sudoku[0][0] == value
-        assert sudoku.board[0][0] == value
-
     ### SUDOKU FUNCTIONS TESTS ###
     
     def test_get_row(self, empty_sudoku):
@@ -84,5 +60,5 @@ class TestSudoku(object):
         original = empty_sudoku
         clone = original.clone()
 
-        clone[0][0] = 1
-        assert original[0][0] == Sudoku.EMPTY_CELL
+        clone.board[0][0] = 1
+        assert original.board[0][0] == Sudoku.EMPTY_CELL
