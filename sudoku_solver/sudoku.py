@@ -1,7 +1,10 @@
-from copy import copy
 from itertools import chain
+import numpy as np
+
 
 from sudoku_solver.exc import BoardError
+from sudoku_solver import utils
+
 
 class Sudoku(object):
     """ Sudoku puzzle."""
@@ -90,9 +93,5 @@ class Sudoku(object):
         :return: A similar sudoku board puzzle.
         :rtype: Sudoku
         """
-        new_board = Sudoku._copy_board(self.board)
+        new_board = utils.copy_matrix(self.board)
         return Sudoku(new_board, self.block_size)
-
-    @staticmethod
-    def _copy_board(board):
-        return [copy(line) for line in board]
