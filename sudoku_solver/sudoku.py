@@ -1,6 +1,5 @@
-from itertools import chain
+from itertools import chain, product
 import numpy as np
-
 
 from sudoku_solver.exc import BoardError
 from sudoku_solver import utils
@@ -27,6 +26,59 @@ class Sudoku(object):
 
         self._valid_elements = Sudoku._cell_options(self.size)
 
+    def get_rows(self):
+        """
+        Return the board rows.
+        :return: A list of all board rows.
+        :rtype: list
+        """
+        return utils.copy_matrix(self.board)
+
+    def get_cols(self):
+        """
+        Return the board columns.
+        :return: A list of all board columns.
+        :rtype: list
+        """
+        return np.transpose(self.board)
+
+    def get_blocks(self):
+        """
+        Return the sudoku blocks from the board.
+        :return: A list of the size*size blocks in the board.
+        :rtype: list
+        """
+        block_positions = product(range(self.size), range(self.size))
+        return [self._get_block(i, j) for i, j in block_positions]
+
+    def _get_block(self, row_idx, col_idx):
+        """
+        Return a sudoku block from the board.
+        :param int row_idx: The row-stripe index.
+        :param int col_idx: The column-stripe index.
+        :return: A size*size sub-board.
+        :rtype: list
+        """
+        start_row = row_idx * self.size
+        start_col = col_idx * self.size
+
+        return self._get_square(start_row, start_col)
+
+    def _get_square(self, start_row, start_col):
+        """
+        Return selected square from the board.
+        :param int start_row: The row index to start from.
+        :param int start_col: The column index to start from.
+        :return: The size*size square starting from the given coordinates.
+        :rtype: list(list)
+        """
+        end_row = start_row + self.size
+        end_col = start_col + self.size
+
+        result = np.array(self.board)[start_row:end_row,
+                                      start_col:end_col]
+        return result.tolist()
+
     @staticmethod
     def _cell_options(board_size):
         options = [str(n) for n in range(1, board_size + 1)]
@@ -43,6 +95,8 @@ class Sudoku(object):
         """
         if not self._is_valid():
             return False
+
+        self._check_rows()
 
         pass
 
