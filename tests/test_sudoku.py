@@ -10,17 +10,17 @@ class TestSudoku(object):
     
     def test_get_row(self, empty_sudoku):
         """ Test sudoku row getter function """
-        row = empty_sudoku.get_row(0)
+        row = empty_sudoku.get_rows()[0]
         self._assert_list(row)
 
     def test_get_col(self, empty_sudoku):
         """ Test sudoku column getter function """
-        col = empty_sudoku.get_col(0)
+        col = empty_sudoku.get_cols()[0]
         self._assert_list(col)
 
     def test_get_block(self, empty_sudoku):
         """ Test sudoku block getter function """
-        block = empty_sudoku.get_block(0, 0)
+        block = empty_sudoku.get_blocks()[0]
         self._assert_block(block)
 
     @staticmethod
