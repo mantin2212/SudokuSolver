@@ -1,4 +1,5 @@
 from copy import copy
+import numpy as np
 
 
 def copy_matrix(mat):
@@ -19,3 +20,14 @@ def is_unique(lst):
     :rtype: bool
     """
     return len(set(lst)) == len(lst)
+
+
+def to_list(matrix):
+    """
+    Convert matrix to list.
+    :param list matrix: The matrix to convert.
+    :return: A list containing the matrix values.
+    :rtype: list
+    """
+    length = len(matrix) * len(matrix[0])
+    return np.reshape(matrix, length)

@@ -62,7 +62,8 @@ class Sudoku(object):
         start_row = row_idx * self.size
         start_col = col_idx * self.size
 
-        return self._get_square(start_row, start_col)
+        block_values = self._get_square(start_row, start_col)
+        return utils.to_list(block_values)
 
     def _get_square(self, start_row, start_col):
         """
