@@ -30,4 +30,4 @@ def to_list(matrix):
     :rtype: list
     """
     length = len(matrix) * len(matrix[0])
-    return np.reshape(matrix, length)
+    return np.reshape(matrix, length).tolist()

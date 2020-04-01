@@ -40,7 +40,7 @@ class Sudoku(object):
         :return: A list of all board columns.
         :rtype: list
         """
-        return np.transpose(self.board)
+        return np.transpose(self.board).tolist()
 
     def get_blocks(self):
         """
@@ -82,11 +82,11 @@ class Sudoku(object):
 
     @staticmethod
     def _cell_options(board_size):
-        options = [str(n) for n in range(1, board_size + 1)]
-        return options + [Sudoku.EMPTY_CELL]
+        options = tuple(range(1, board_size + 1))
+        return options + (Sudoku.EMPTY_CELL,)
 
     def _cells_iterable(self):
-        return chain.from_iterable(zip(self.board))
+        return utils.to_list(self.board)
 
     def _is_valid(self):
         """
@@ -167,7 +167,7 @@ class Sudoku(object):
 
     def __repr__(self):
         # TODO Nicely print the board
-        pass
+        return ""
 
     def clone(self):
         """
