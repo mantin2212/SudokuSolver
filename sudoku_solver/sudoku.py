@@ -166,8 +166,28 @@ class Sudoku(object):
         return True
 
     def __repr__(self):
-        # TODO Nicely print the board
-        return ""
+        """
+        Get a nice display of the sudoku board.
+        :return: Representation of the sudoku board.
+        :rtype: str
+        """
+        result = ""
+        space_char = "-"
+
+        result += self._repr_space_line(space_char)
+
+        for i in range(self.block_size):
+            result += self._stripe_repr(i)
+            result += self._repr_space_line(space_char)
+
+        return result
+
+    @staticmethod
+    def _repr_space_line(space_char):
+        pass
+
+    def _stripe_repr(self, stripe_idx):
+        pass
 
     def clone(self):
         """
