@@ -182,12 +182,15 @@ class Sudoku(object):
 
         return result
 
-    @staticmethod
-    def _repr_space_line(space_char):
-        pass
+    def _repr_space_line(self, space_char):
+        line = [space_char] * self._get_repr_line_length()
+        return "".join(line) + "\n"
+
+    def _get_repr_line_length(self):
+        return 2*(self.size + self.block_size) + 1
 
     def _stripe_repr(self, stripe_idx):
-        pass
+        return ""
 
     def clone(self):
         """
