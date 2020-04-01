@@ -40,7 +40,7 @@ class Sudoku(object):
         :return: A list of all board columns.
         :rtype: list
         """
-        return np.transpose(self.board)
+        return np.transpose(self.board).tolist()
 
     def get_blocks(self):
         """
@@ -48,7 +48,7 @@ class Sudoku(object):
         :return: A list of the size*size blocks in the board.
         :rtype: list
         """
-        block_positions = product(range(self.size), range(self.size))
+        block_positions = product(range(self.block_size), range(self.block_size))
         return [self._get_block(i, j) for i, j in block_positions]
 
     def _get_block(self, row_idx, col_idx):
@@ -59,21 +59,22 @@ class Sudoku(object):
         :return: A size*size sub-board.
         :rtype: list
         """
-        start_row = row_idx * self.size
-        start_col = col_idx * self.size
+        start_row = row_idx * self.block_size
+        start_col = col_idx * self.block_size
 
-        return self._get_square(start_row, start_col)
+        block_values = self._get_square(start_row, start_col)
+        return utils.to_list(block_values)
 
     def _get_square(self, start_row, start_col):
         """
         Return selected square from the board.
         :param int start_row: The row index to start from.
         :param int start_col: The column index to start from.
-        :return: The size*size square starting from the given coordinates.
+        :return: The block_size*block_size square starting from the given coordinates.
         :rtype: list(list)
         """
-        end_row = start_row + self.size
-        end_col = start_col + self.size
+        end_row = start_row + self.block_size
+        end_col = start_col + self.block_size
 
         result = np.array(self.board)[start_row:end_row,
                                       start_col:end_col]
@@ -81,24 +82,11 @@ class Sudoku(object):
 
     @staticmethod
     def _cell_options(board_size):
-        options = [str(n) for n in range(1, board_size + 1)]
-        return options + [Sudoku.EMPTY_CELL]
+        options = tuple(range(1, board_size + 1))
+        return options + (Sudoku.EMPTY_CELL,)
 
     def _cells_iterable(self):
-        return chain.from_iterable(zip(self.board))
-
-    def is_legal(self):
-        """
-        Checks if the sudoku board is legal.
-        :return: True if board is legal, and false Otherwise.
-        :rtype: bool
-        """
-        if not self._is_valid():
-            return False
-
-        self._check_rows()
-
-        pass
+        return utils.to_list(self.board)
 
     def _is_valid(self):
         """
@@ -109,6 +97,56 @@ class Sudoku(object):
             if cell not in self._valid_elements:
                 return False
         return True
+
+    def is_legal(self):
+        """
+        Checks if the sudoku board is legal.
+        :return: True if board is legal, and false Otherwise.
+        :rtype: bool
+        """
+        if not self._is_valid():
+            return False
+
+        if not self._check_all(self.get_rows()):
+            return False
+
+        if not self._check_all(self.get_cols()):
+            return False
+
+        if not self._check_all(self.get_blocks()):
+            return False
+
+        return True
+
+    def _check_all(self, groups):
+        """
+        Check if all given sudoku groups are legal.
+        :param list groups: List of sudoku groups to check.
+        :rtype: bool
+        """
+        for group in groups:
+            if not self._check_group(group):
+                return False
+        return True
+
+    @staticmethod
+    def _check_group(group):
+        """
+        Check if sudoku "board group" is legal.
+        Sudoku group is considered illegal if it contains the same number twice.
+        :rtype: bool
+        """
+        filled_cells = Sudoku._filter_empty(group)
+        return utils.is_unique(filled_cells)
+
+    @staticmethod
+    def _filter_empty(lst):
+        """
+        Filter empty cells from list.
+        :return: List of the non-empty cells.
+        :rtype: list
+        """
+        return [cell for cell in lst if cell is not Sudoku.EMPTY_CELL]
 
     def is_solved(self):
         """
@@ -129,7 +167,7 @@ class Sudoku(object):
 
     def __repr__(self):
         # TODO Nicely print the board
-        pass
+        return ""
 
     def clone(self):
         """
