@@ -48,7 +48,7 @@ class Sudoku(object):
         :return: A list of the size*size blocks in the board.
         :rtype: list
         """
-        block_positions = product(range(self.size), range(self.size))
+        block_positions = product(range(self.block_size), range(self.block_size))
         return [self._get_block(i, j) for i, j in block_positions]
 
     def _get_block(self, row_idx, col_idx):
@@ -59,8 +59,8 @@ class Sudoku(object):
         :return: A size*size sub-board.
         :rtype: list
         """
-        start_row = row_idx * self.size
-        start_col = col_idx * self.size
+        start_row = row_idx * self.block_size
+        start_col = col_idx * self.block_size
 
         block_values = self._get_square(start_row, start_col)
         return utils.to_list(block_values)
@@ -70,11 +70,11 @@ class Sudoku(object):
         Return selected square from the board.
         :param int start_row: The row index to start from.
         :param int start_col: The column index to start from.
-        :return: The size*size square starting from the given coordinates.
+        :return: The block_size*block_size square starting from the given coordinates.
         :rtype: list(list)
         """
-        end_row = start_row + self.size
-        end_col = start_col + self.size
+        end_row = start_row + self.block_size
+        end_col = start_col + self.block_size
 
         result = np.array(self.board)[start_row:end_row,
                                       start_col:end_col]
