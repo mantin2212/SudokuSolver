@@ -88,19 +88,6 @@ class Sudoku(object):
     def _cells_iterable(self):
         return chain.from_iterable(zip(self.board))
 
-    def is_legal(self):
-        """
-        Checks if the sudoku board is legal.
-        :return: True if board is legal, and false Otherwise.
-        :rtype: bool
-        """
-        if not self._is_valid():
-            return False
-
-        self._check_rows()
-
-        pass
-
     def _is_valid(self):
         """
         Check if board elements are valid.
@@ -110,6 +97,56 @@ class Sudoku(object):
             if cell not in self._valid_elements:
                 return False
         return True
+
+    def is_legal(self):
+        """
+        Checks if the sudoku board is legal.
+        :return: True if board is legal, and false Otherwise.
+        :rtype: bool
+        """
+        if not self._is_valid():
+            return False
+
+        if not self._check_all(self.get_rows()):
+            return False
+
+        if not self._check_all(self.get_cols()):
+            return False
+
+        if not self._check_all(self.get_blocks()):
+            return False
+
+        return True
+
+    def _check_all(self, groups):
+        """
+        Check if all given sudoku groups are legal.
+        :param list groups: List of sudoku groups to check.
+        :rtype: bool
+        """
+        for group in groups:
+            if not self._check_group(group):
+                return False
+        return True
+
+    @staticmethod
+    def _check_group(group):
+        """
+        Check if sudoku "board group" is legal.
+        Sudoku group is considered illegal if it contains the same number twice.
+        :rtype: bool
+        """
+        filled_cells = Sudoku._filter_empty(group)
+        return utils.is_unique(filled_cells)
+
+    @staticmethod
+    def _filter_empty(lst):
+        """
+        Filter empty cells from list.
+        :return: List of the non-empty cells.
+        :rtype: list
+        """
+        return [cell for cell in lst if cell is not Sudoku.EMPTY_CELL]
 
     def is_solved(self):
         """
