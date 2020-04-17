@@ -80,6 +80,12 @@ class Sudoku(object):
                                       start_col:end_col]
         return result.tolist()
 
+    def _get_stripe(self, stripe_idx):
+        start_row = stripe_idx * self.block_size
+        end_row = (stripe_idx + 1) * self.block_size
+
+        return self.get_rows()[start_row:end_row]
+
     @staticmethod
     def _cell_options(board_size):
         options = tuple(range(1, board_size + 1))
@@ -187,7 +193,19 @@ class Sudoku(object):
         return "".join(line) + "\n"
 
     def _get_repr_line_length(self):
-        return 2*(self.size + self.block_size) + 1
+        return 2 * self.size + 1
+
+    def _repr_stripe(self, stripe_idx):
+        stripe_rows = self._get_stripe(stripe_idx)
+        result = ""
+
+        for row in stripe_rows:
+            result += self._repr_one_row(row)
+
+        return result
+
+    def _repr_one_row(self, row):
+        result = ""
 
     def _stripe_repr(self, stripe_idx):
         return ""
