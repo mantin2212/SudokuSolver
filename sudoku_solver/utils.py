@@ -31,3 +31,11 @@ def to_list(matrix):
     """
     length = len(matrix) * len(matrix[0])
     return np.reshape(matrix, length).tolist()
+
+
+def repr_raw_list(lst):
+    result = ""
+    for e in lst:
+        result += "{} ".format(e)
+    result = result[:-1]
+    return result

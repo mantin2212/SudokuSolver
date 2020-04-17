@@ -8,7 +8,9 @@ from sudoku_solver import utils
 class Sudoku(object):
     """ Sudoku puzzle."""
 
-    EMPTY_CELL = "-"
+    EMPTY_CELL = "_"
+    HORIZONTAL_SPACER = "-"
+    VERTICAL_SPACER = "|"
 
     def __init__(self, board, block_size):
         """
@@ -77,7 +79,7 @@ class Sudoku(object):
         end_col = start_col + self.block_size
 
         result = np.array(self.board)[start_row:end_row,
-                                      start_col:end_col]
+                 start_col:end_col]
         return result.tolist()
 
     def _get_stripe(self, stripe_idx):
@@ -178,12 +180,12 @@ class Sudoku(object):
         :rtype: str
         """
         result = ""
-        space_char = "-"
+        space_char = self.HORIZONTAL_SPACER
 
         result += self._repr_space_line(space_char)
 
         for i in range(self.block_size):
-            result += self._stripe_repr(i)
+            result += self._repr_stripe(i)
             result += self._repr_space_line(space_char)
 
         return result
