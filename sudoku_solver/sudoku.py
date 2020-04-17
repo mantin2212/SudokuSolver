@@ -209,8 +209,16 @@ class Sudoku(object):
     def _repr_one_row(self, row):
         result = ""
 
-    def _stripe_repr(self, stripe_idx):
-        return ""
+        blocks = self._split_to_blocks(row)
+        for sub_line in blocks:
+            result += self.VERTICAL_SPACER
+            result += utils.repr_raw_list(sub_line)
+
+        result += self.VERTICAL_SPACER
+        return result + "\n"
+
+    def _split_to_blocks(self, row):
+        return np.array(row).reshape(self.block_size, self.block_size)
 
     def clone(self):
         """
